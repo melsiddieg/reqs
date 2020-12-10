@@ -6,6 +6,9 @@ use futures::future::try_join_all;
 use reqwest::Client;
 use std::fs::File;
 use serde_json;
+use std::env;
+use simd-json-derive::{Deserialize,Serialize};
+// use simd_json;
 
 #[derive(Deserialize, Debug)]
 struct Top {
@@ -58,7 +61,8 @@ mode_of_inheritance:String,
 phenotypes:Option<Vec<String>>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+// #[derive(Deserialize,Serialize, Debug)]
+#[derive(simd_json_derive::Deserialize,Serialize)]
 struct GeneInfo{
     alias:Option<Vec<String>>,
     biotype:Option<String>,
@@ -69,6 +73,8 @@ struct GeneInfo{
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    let args:Vec<String> = env::args().collect();
+    let output:String = args[1].clone();
     let mut panels_ids:Vec<u32> = Vec::new();
     // let timeout = Duration::new(5, 0);
     let client = Client::builder().build()?;
@@ -97,12 +103,12 @@ async fn main() -> Result<(), Error> {
         gets2.push(get);  
     }
     let panel_genes = try_join_all(gets2).await?;
+    println!("\n Done! Elapsed time is: {} seconds", now.elapsed().as_secs_f64());
 
     for pan in &panel_genes {
         println!("Now writing ... panel {} to file {}.json",pan.name,pan.id);
-        serde_json::to_writer(&File::create(format!("{}.json",pan.id)).unwrap(), &pan).unwrap();
+        serde_json::to_writer(&File::create(format!("{}/{}.json",output,pan.id)).unwrap(), &pan).unwrap();
     }
-    
     println!("\n Done! filtered panels number is {}",panels_ids.len());
     println!("\n Done! Elapsed time is: {} seconds", now.elapsed().as_secs_f64());
     // println!("last gene panel is {:?}", panel_genes[0]);

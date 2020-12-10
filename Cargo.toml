@@ -13,3 +13,5 @@ serde = { version ="1.0.118",features =["derive"] }
 futures = "0.3.8"
 simd-json = "0.3.23"
 serde_json = "1.0.59"
+simd-json-derive = "0.1.15"
+clap = "2.33.3"
