@@ -7,7 +7,7 @@ use reqwest::Client;
 use std::fs::File;
 use serde_json;
 use std::env;
-use simd-json-derive::{Deserialize,Serialize};
+// use simd-json-derive::{Deserialize,Serialize};
 // use simd_json;
 
 #[derive(Deserialize, Debug)]
@@ -61,8 +61,7 @@ mode_of_inheritance:String,
 phenotypes:Option<Vec<String>>,
 }
 
-// #[derive(Deserialize,Serialize, Debug)]
-#[derive(simd_json_derive::Deserialize,Serialize)]
+#[derive(Deserialize,Serialize, Debug)]
 struct GeneInfo{
     alias:Option<Vec<String>>,
     biotype:Option<String>,
