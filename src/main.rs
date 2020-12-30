@@ -1,73 +1,13 @@
-use serde::{Deserialize,Serialize};
+// use serde::{Deserialize,Serialize};
 use reqwest::{Url,Error};
 use std::format;
 use std::time::Instant;
 use futures::future::try_join_all;
 use reqwest::Client;
 use std::fs::File;
-use serde_json;
 use std::env;
-// use simd-json-derive::{Deserialize,Serialize};
+use reqs::{Top,Panel};
 // use simd_json;
-
-#[derive(Deserialize, Debug)]
-struct Top {
-    results: Vec<Panels>,    
-}
-
-#[derive(Deserialize, Debug)]
-struct Panels {
-    id:u32, 
-    stats: Stats,
-    name: String,
-    version: String,
-}
-#[derive(Deserialize, Debug)]
-struct Stats {
-    number_of_genes: u16,
-}
-#[derive(Deserialize,Serialize, Debug)]
-struct Panel {
-  id: u32,
-//   hash_id: String,
-  name: String,
-  disease_group: String,
-  disease_sub_group: String,
-  status: String,
-  version: String,
-  relevant_disorders:Vec<String>,
-  stats:StatInfo,
-  genes:Vec<Gene>,
-}
-
-#[derive(Deserialize, Serialize,Debug)]
-struct StatInfo{
-    number_of_genes: u32,
-    number_of_strs: u16,
-    number_of_regions: u8,
-}
-
-#[derive(Deserialize,Serialize,Debug)]
-struct Gene {
-gene_data:GeneInfo,
-entity_type:String,
-entity_name:String,
-confidence_level:String,
-mode_of_pathogenicity: Option<String>,
-penetrance:Option<String>,
-evidence:Option<Vec<String>>,
-publications:Option<Vec<String>>,
-mode_of_inheritance:String,
-phenotypes:Option<Vec<String>>,
-}
-
-#[derive(Deserialize,Serialize, Debug)]
-struct GeneInfo{
-    alias:Option<Vec<String>>,
-    biotype:Option<String>,
-    hgnc_id:Option<String>,
-    gene_name: Option<String>,
-}
 
 
 #[tokio::main]
