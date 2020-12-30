@@ -12,10 +12,10 @@ use reqs::{Top,Panel};
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    let args:Vec<String> = env::args().collect();
-    let output:String = args[1].clone();
-    let mut panels_ids:Vec<u32> = Vec::new();
-    // let timeout = Duration::new(5, 0);
+        let args:Vec<String> = env::args().collect();
+        let output:String = args[1].clone();
+        let mut panels_ids:Vec<u32> = Vec::new();
+// let timeout = Duration::new(5, 0);
     let client = Client::builder().build()?;
     let mut gets = Vec::new();
     let now = Instant::now();
@@ -38,7 +38,7 @@ async fn main() -> Result<(), Error> {
     // second async loop  
     let mut gets2 = Vec::new();
     for  id in &panels_ids{
-        let get = get_panels(&client,*id);
+        let get = get_panel(&client,*id);
         gets2.push(get);  
     }
     let panel_genes = try_join_all(gets2).await?;
@@ -65,7 +65,7 @@ async fn get_res(client: &Client, page:u8)-> Result<Top, Error>{
     Ok(panels)
 }
 
-async fn get_panels(client: &Client, id:u32)-> Result<Panel, Error>{
+async fn get_panel(client: &Client, id:u32)-> Result<Panel, Error>{
     let url:String = format!("https://panelapp.genomicsengland.co.uk/api/v1/panels/{}",id);
         let url2 = Url::parse(&url).unwrap();    
         let response = client.get(url2).send().await?;

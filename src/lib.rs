@@ -1,5 +1,5 @@
 use serde::{Deserialize,Serialize};
-
+ 
 #[derive(Deserialize, Debug)]
 pub struct Top {
     pub results: Vec<Panels>,    
@@ -21,8 +21,8 @@ pub struct Panel {
   pub id: u32,
 //   hash_id: String,
   pub name: String,
-  disease_group: String,
-  disease_sub_group: String,
+   disease_group: String,
+     disease_sub_group: String,
   status: String,
   version: String,
   relevant_disorders:Vec<String>,
